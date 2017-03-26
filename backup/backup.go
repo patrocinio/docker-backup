@@ -17,7 +17,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/cyphar/docker/runconfig"
+	"github.com/docker/docker/runconfig"
 )
 
 type container struct {
