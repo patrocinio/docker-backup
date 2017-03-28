@@ -262,7 +262,7 @@ func (b *ContainerBackup) getContainer(containerId string) (*containerType, []by
 		return nil, nil, err
 	}
 
-	container := &container{}
+	container := &containerType{}
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
 		return nil, body, err
