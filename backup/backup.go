@@ -20,6 +20,13 @@ import (
 	"github.com/docker/docker/api/types/container"
 )
 
+type container struct {
+	Config     container.Config
+	HostConfig container.HostConfig
+	Name       string            `json:"Name"`
+	Volumes    map[string]string `json:"Volumes"`
+}
+
 type containerResponse struct {
 	Id string `json:"ID"`
 }
