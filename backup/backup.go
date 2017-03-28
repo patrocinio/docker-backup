@@ -123,7 +123,7 @@ func (b *ContainerBackup) Restore() error {
 		return fmt.Errorf("Couldn't find volume container in backup")
 	}
 
-	oldContainer := &container{}
+	oldContainer := &containerType{}
 	if err := json.Unmarshal(oldContainerJson, oldContainer); err != nil {
 		return err
 	}
@@ -256,7 +256,7 @@ func (b *ContainerBackup) request(method, path string, body io.Reader) (*http.Re
 	return resp, nil
 }
 
-func (b *ContainerBackup) getContainer(containerId string) (*container, []byte, error) {
+func (b *ContainerBackup) getContainer(containerId string) (*containerType, []byte, error) {
 	resp, err := b.request("GET", fmt.Sprintf("/containers/%s/json", containerId), nil)
 	if err != nil {
 		return nil, nil, err
