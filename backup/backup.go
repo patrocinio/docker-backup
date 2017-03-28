@@ -18,10 +18,11 @@ import (
 	"time"
 
 	"github.com/patrocinio/docker/runconfig"
+	"github.com/patrocinio/docker/container"
 )
 
 type container struct {
-	Config     runconfig.Config
+	Config     container.Config
 	HostConfig runconfig.HostConfig
 	Name       string            `json:"Name"`
 	Volumes    map[string]string `json:"Volumes"`
