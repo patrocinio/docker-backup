@@ -20,9 +20,9 @@ import (
 	"github.com/docker/docker/api/types/container"
 )
 
-type container struct {
-	Config     Config
-	HostConfig HostConfig
+type containerType struct {
+	Config     container.Config
+	HostConfig container.HostConfig
 	Name       string            `json:"Name"`
 	Volumes    map[string]string `json:"Volumes"`
 }
