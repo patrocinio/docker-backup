@@ -17,7 +17,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/golang-basic/docker/runconfig"
+	"github.com/patrocinio/docker/runconfig"
 )
 
 type container struct {

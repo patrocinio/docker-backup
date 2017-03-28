@@ -3,8 +3,9 @@ MAINTAINER Johannes 'fish' Ziemke <fish@docker.com> (@discordianfish)
 
 ENV  GOPATH /go
 ENV APPPATH $GOPATH/src/github.com/docker-infra/docker-backup
+RUN apk add --update -t build-deps go git 
 COPY . $APPPATH
-RUN apk add --update -t build-deps go git && cd $APPPATH 
+RUN cd $APPPATH
 
 WORKDIR    /docker-backup
 ENTRYPOINT [ "/bin/sh" ]
