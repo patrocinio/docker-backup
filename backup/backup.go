@@ -18,7 +18,6 @@ import (
 	"time"
 
 	"github.com/patrocinio/docker/runconfig"
-	"github.com/patrocinio/docker/container"
 )
 
 type container struct {
