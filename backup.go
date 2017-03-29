@@ -267,5 +267,6 @@ func (b *ContainerBackup) getContainer(containerId string) (*containerType, []by
 	if err != nil {
 		return nil, body, err
 	}
+	log.println (resp.Body)
 	return container, body, json.Unmarshal(body, &container)
 }
