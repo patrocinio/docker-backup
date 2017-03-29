@@ -16,9 +16,12 @@ import (
 	"path/filepath"
 	"strings"
 	"time"
+	"context"
 	"log"
 
 	"github.com/docker/docker/api/types/container"
+	"github.com/docker/docker/api/types"
+	"github.com/docker/docker/client"
 )
 
 type containerType struct {
@@ -33,19 +36,28 @@ type containerResponse struct {
 }
 
 type ContainerBackup struct {
-	rw    io.ReadWriteSeeker
-	ts    time.Time
-	addr  string
-	proto string
+	rw     io.ReadWriteSeeker
+	ts     time.Time
+	addr   string
+	proto  string
+	client *client.Client
 }
 
 func NewBackup(addr, proto string, rw io.ReadWriteSeeker) *ContainerBackup {
-	backup := &ContainerBackup{
-		addr:  addr,
-		proto: proto,
-		rw:    rw,
-		ts:    time.Now(),
+	cli, err := client.NewEnvClient()
+	if err != nil {
+		panic(err)
 	}
+
+	backup := &ContainerBackup{
+		addr:   addr,
+		proto:  proto,
+		rw:     rw,
+		ts:     time.Now(),
+		client: cli,
+	}
+
+
 	return backup
 }
 
@@ -89,6 +101,9 @@ func (b *ContainerBackup) VolumeContainerStore(containerId string) (uint, error)
 	}
 
 	n := uint(0)
+
+	log.Println (volumeContainer);
+	/* Patrocinio - TODO
 	for path, hostPath := range volumeContainer.Volumes {
 		volume := newContainerVolume(path, hostPath, tw)
 		nl, err := volume.Store()
@@ -97,6 +112,7 @@ func (b *ContainerBackup) VolumeContainerStore(containerId string) (uint, error)
 		}
 		n = n + nl
 	}
+	*/
 	return n, tw.Close()
 }
 
@@ -163,6 +179,9 @@ func (b *ContainerBackup) Restore() error {
 	}
 
 	trans := map[string]string{}
+
+	log.Println(newContainer);
+	/* Patrocinio - TODO
 	// find new location for each volume found in old container
 	for oldPath, oldHostPath := range oldContainer.Volumes {
 		newHostPath := ""
@@ -176,6 +195,7 @@ func (b *ContainerBackup) Restore() error {
 		relOldHostPath := oldHostPath[len(filepath.Dir(oldHostPath))+1:]
 		trans[relOldHostPath] = newHostPath
 	}
+	*/
 
 	if _, err := b.rw.Seek(0, 0); err != nil {
 		return err
@@ -257,7 +277,11 @@ func (b *ContainerBackup) request(method, path string, body io.Reader) (*http.Re
 	return resp, nil
 }
 
-func (b *ContainerBackup) getContainer(containerId string) (*containerType, []byte, error) {
+func (b *ContainerBackup) getContainer(containerId string) (types.ContainerJSON, []byte, error) {
+
+	container, body, error := b.client.ContainerInspectWithRaw(context.Background(), containerId, true)
+	return container, body, error
+/*
 	resp, err := b.request("GET", fmt.Sprintf("/containers/%s/json", containerId), nil)
 	if err != nil {
 		return nil, nil, err
@@ -270,4 +294,5 @@ func (b *ContainerBackup) getContainer(containerId string) (*containerType, []by
 	}
 	log.Println (resp.Body)
 	return container, body, json.Unmarshal(body, &container)
+	*/
 }
