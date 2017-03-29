@@ -42,7 +42,7 @@ func main() {
 		if err != nil {
 			log.Fatal(err)
 		}
-		b := backup.NewBackup(*addr, *proto, file)
+		b := NewBackup(*addr, *proto, file)
 		n := uint(0)
 		if *direct {
 			n, err = b.VolumeContainerStore(containerId)
@@ -64,7 +64,7 @@ func main() {
 		if err != nil {
 			log.Fatal(err)
 		}
-		b := backup.NewBackup(*addr, *proto, file)
+		b := NewBackup(*addr, *proto, file)
 		if err := b.Restore(); err != nil {
 			log.Fatal(err)
 		}

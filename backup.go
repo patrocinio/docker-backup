@@ -1,4 +1,4 @@
-package backup
+package main
 
 import (
 	"archive/tar"
@@ -16,6 +16,7 @@ import (
 	"path/filepath"
 	"strings"
 	"time"
+	"log"
 
 	"github.com/docker/docker/api/types/container"
 )
@@ -267,6 +268,6 @@ func (b *ContainerBackup) getContainer(containerId string) (*containerType, []by
 	if err != nil {
 		return nil, body, err
 	}
-	log.println (resp.Body)
+	log.Println (resp.Body)
 	return container, body, json.Unmarshal(body, &container)
 }
