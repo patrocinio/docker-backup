@@ -69,7 +69,8 @@ func (b *ContainerBackup) Store(containerId string) (uint, error) {
 
 	switch len(container.HostConfig.VolumesFrom) {
 	case 0:
-		return 0, errors.New("Couldn't find data container")
+		break
+//		return 0, errors.New("Couldn't find data container")
 	case 1:
 		break
 	default:
@@ -102,7 +103,7 @@ func (b *ContainerBackup) VolumeContainerStore(containerId string) (uint, error)
 
 	n := uint(0)
 
-	log.Println (volumeContainer);
+	log.Println ("Volume container: ", volumeContainer);
 	/* Patrocinio - TODO
 	for path, hostPath := range volumeContainer.Volumes {
 		volume := newContainerVolume(path, hostPath, tw)
@@ -280,6 +281,7 @@ func (b *ContainerBackup) request(method, path string, body io.Reader) (*http.Re
 func (b *ContainerBackup) getContainer(containerId string) (types.ContainerJSON, []byte, error) {
 
 	container, body, error := b.client.ContainerInspectWithRaw(context.Background(), containerId, true)
+	log.Println ("Container: ", container)
 	return container, body, error
 /*
 	resp, err := b.request("GET", fmt.Sprintf("/containers/%s/json", containerId), nil)
