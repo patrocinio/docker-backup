@@ -61,6 +61,7 @@ func NewBackup(addr, proto string, rw io.ReadWriteSeeker) *ContainerBackup {
 	return backup
 }
 
+/*
 func (b *ContainerBackup) Store(containerId string) (uint, error) {
 	container, _, err := b.getContainer(containerId)
 	if err != nil {
@@ -79,8 +80,9 @@ func (b *ContainerBackup) Store(containerId string) (uint, error) {
 
 	return b.VolumeContainerStore(container.HostConfig.VolumesFrom[0])
 }
+*/
 
-func (b *ContainerBackup) VolumeContainerStore(containerId string) (uint, error) {
+func (b *ContainerBackup) Store(containerId string) (uint, error) {
 	volumeContainer, volumeContainerJson, err := b.getContainer(containerId)
 	if err != nil {
 		return 0, err
