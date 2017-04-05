@@ -106,7 +106,7 @@ func (b *ContainerBackup) VolumeContainerStore(containerId string) (uint, error)
 
 	log.Println ("Volume container: ", volumeContainer);
 
-	fmt.Println (reflect.TypeOf(volumeContainer))
+	fmt.Println ("Type: ", reflect.TypeOf(volumeContainer))
 /*
 	for path, hostPath := range volumeContainer.Volumes {
 		volume := newContainerVolume(path, hostPath, tw)
