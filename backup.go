@@ -184,13 +184,14 @@ func (b *ContainerBackup) Restore() error {
 	trans := map[string]string{}
 
 	log.Println(newContainer);
-	/* Patrocinio - TODO
+
 	// find new location for each volume found in old container
 	for oldPath, oldHostPath := range oldContainer.Volumes {
 		newHostPath := ""
-		for path, hostPath := range newContainer.Volumes {
-			if oldPath == path {
-				newHostPath = hostPath
+		for _, mount := range newContainer.Mounts {
+//		for path, hostPath := range newContainer.Volumes {
+			if oldPath == mount.Destination {
+				newHostPath = mount.Source
 				break
 			}
 		}
@@ -198,7 +199,6 @@ func (b *ContainerBackup) Restore() error {
 		relOldHostPath := oldHostPath[len(filepath.Dir(oldHostPath))+1:]
 		trans[relOldHostPath] = newHostPath
 	}
-	*/
 
 	if _, err := b.rw.Seek(0, 0); err != nil {
 		return err
@@ -285,18 +285,4 @@ func (b *ContainerBackup) getContainer(containerId string) (types.ContainerJSON,
 	container, body, error := b.client.ContainerInspectWithRaw(context.Background(), containerId, true)
 	log.Println ("Container: ", container)
 	return container, body, error
-/*
-	resp, err := b.request("GET", fmt.Sprintf("/containers/%s/json", containerId), nil)
-	if err != nil {
-		return nil, nil, err
-	}
-
-	container := &containerType{}
-	body, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		return nil, body, err
-	}
-	log.Println (resp.Body)
-	return container, body, json.Unmarshal(body, &container)
-	*/
 }
