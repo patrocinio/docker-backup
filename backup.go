@@ -18,7 +18,6 @@ import (
 	"time"
 	"context"
 	"log"
-	"reflect"
 
 	"github.com/docker/docker/api/types/container"
 	"github.com/docker/docker/api/types"
@@ -106,7 +105,8 @@ func (b *ContainerBackup) VolumeContainerStore(containerId string) (uint, error)
 
 	log.Println ("Volume container: ", volumeContainer);
 
-	fmt.Println ("Type: ", reflect.TypeOf(volumeContainer))
+	fmt.Printf("Structure %+v\n", volumeContainer)
+
 /*
 	for path, hostPath := range volumeContainer.Volumes {
 		volume := newContainerVolume(path, hostPath, tw)
