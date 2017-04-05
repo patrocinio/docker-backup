@@ -18,6 +18,7 @@ import (
 	"time"
 	"context"
 	"log"
+	"reflect"
 
 	"github.com/docker/docker/api/types/container"
 	"github.com/docker/docker/api/types"
@@ -104,7 +105,9 @@ func (b *ContainerBackup) VolumeContainerStore(containerId string) (uint, error)
 	n := uint(0)
 
 	log.Println ("Volume container: ", volumeContainer);
-	/* Patrocinio - TODO
+
+	fmt.Println (reflect.TypeOf(volumeContainer))
+/*
 	for path, hostPath := range volumeContainer.Volumes {
 		volume := newContainerVolume(path, hostPath, tw)
 		nl, err := volume.Store()
@@ -113,7 +116,8 @@ func (b *ContainerBackup) VolumeContainerStore(containerId string) (uint, error)
 		}
 		n = n + nl
 	}
-	*/
+*/
+
 	return n, tw.Close()
 }
 
