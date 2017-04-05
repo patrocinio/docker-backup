@@ -107,16 +107,14 @@ func (b *ContainerBackup) VolumeContainerStore(containerId string) (uint, error)
 
 	fmt.Printf("Structure %+v\n", volumeContainer)
 
-/*
-	for path, hostPath := range volumeContainer.Volumes {
-		volume := newContainerVolume(path, hostPath, tw)
+	for _, mount := range volumeContainer.Mounts {
+		volume := newContainerVolume(mount.Destination, mount.Source, tw)
 		nl, err := volume.Store()
 		if err != nil {
 			return n, err
 		}
 		n = n + nl
 	}
-*/
 
 	return n, tw.Close()
 }
