@@ -102,9 +102,7 @@ func (b *ContainerBackup) VolumeContainerStore(containerId string) (uint, error)
 
 	n := uint(0)
 
-	log.Println ("Volume container: ", volumeContainer);
-
-	fmt.Printf("Structure %+v\n", volumeContainer)
+	fmt.Printf("Volume container: %+v\n", volumeContainer)
 
 	for _, mount := range volumeContainer.Mounts {
 		volume := newContainerVolume(mount.Destination, mount.Source, tw)
@@ -147,14 +145,13 @@ func (b *ContainerBackup) Restore() error {
 		return fmt.Errorf("Couldn't find volume container in backup")
 	}
 
-	oldContainer := &containerType{}
+//	oldContainer := &containerType{}
+	oldContainer := &types.ContainerJSON{}
 	if err := json.Unmarshal(oldContainerJson, oldContainer); err != nil {
 		return err
 	}
 
 	fmt.Printf("Old container: %+v\n", oldContainer)
-
- 
 
 	config, err := json.Marshal(oldContainer.Config)
 	if err != nil {
@@ -193,17 +190,18 @@ func (b *ContainerBackup) Restore() error {
 
 
 	// find new location for each volume found in old container
-	for oldPath, oldHostPath := range oldContainer.Volumes {
+	for _, oldMount := range oldContainer.Mounts {
+		fmt.Printf("oldMount: %+v\n", oldMount)
 		newHostPath := ""
-		log.Println ("oldPath: ", oldPath, " oldHostPath:", oldHostPath)
 		for _, mount := range newContainer.Mounts {
 //		for path, hostPath := range newContainer.Volumes {
-			if oldPath == mount.Destination {
+			if oldMount.Destination == mount.Destination {
 				newHostPath = mount.Source
 				break
 			}
 		}
 
+		oldHostPath := oldMount.Source
 		relOldHostPath := oldHostPath[len(filepath.Dir(oldHostPath))+1:]
 		trans[relOldHostPath] = newHostPath
 	}
