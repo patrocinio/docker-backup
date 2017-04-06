@@ -69,8 +69,7 @@ func (b *ContainerBackup) Store(containerId string) (uint, error) {
 
 	switch len(container.HostConfig.VolumesFrom) {
 	case 0:
-		break
-//		return 0, errors.New("Couldn't find data container")
+		return 0, errors.New("Couldn't find data container")
 	case 1:
 		break
 	default:

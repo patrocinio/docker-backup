@@ -14,10 +14,10 @@ const (
 )
 
 var (
-	addr    = flag.String("addr", defaultAddr, "address to connect to")
-	proto   = flag.String("proto", defaultProto, "protocol to use (unix, tcp)")
-	metrics = flag.Bool("metrics", false, "print some metrics for prometheus consumption")
-	direct  = flag.Bool("direct", false, "backup directly at data container")
+	addr     = flag.String("addr", defaultAddr, "address to connect to")
+	proto    = flag.String("proto", defaultProto, "protocol to use (unix, tcp)")
+	metrics  = flag.Bool("metrics", false, "print some metrics for prometheus consumption")
+	indirect = flag.Bool("indirect", false, "backup indirectly at data container")
 )
 
 func main() {
@@ -44,10 +44,10 @@ func main() {
 		}
 		b := NewBackup(*addr, *proto, file)
 		n := uint(0)
-		if *direct {
-			n, err = b.VolumeContainerStore(containerId)
-		} else {
+		if *indirect {
 			n, err = b.Store(containerId)
+		} else {
+			n, err = b.VolumeContainerStore(containerId)
 		}
 		if err != nil {
 			log.Fatal(err)
