@@ -137,7 +137,7 @@ func (b *ContainerBackup) Restore() error {
 			var err error
 			oldContainerJson, err = ioutil.ReadAll(tr)
 
-			log.Printf ("oldContainerJson: ", oldContainerJson)
+//			log.Printf ("oldContainerJson: ", oldContainerJson)
 			if err != nil {
 				return err
 			}
