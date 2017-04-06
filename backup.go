@@ -187,6 +187,7 @@ func (b *ContainerBackup) Restore() error {
 	// find new location for each volume found in old container
 	for oldPath, oldHostPath := range oldContainer.Volumes {
 		newHostPath := ""
+		log.Println ("oldPath: ", oldPath, " oldHostPath:", oldHostPath)
 		for _, mount := range newContainer.Mounts {
 //		for path, hostPath := range newContainer.Volumes {
 			if oldPath == mount.Destination {
