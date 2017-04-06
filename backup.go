@@ -123,6 +123,9 @@ func (b *ContainerBackup) Restore() error {
 	oldContainerJson := []byte{}
 	for {
 		th, err := tr.Next()
+
+		fmt.Printf("th: %+v\n", th)
+
 		if err == io.EOF {
 			break
 		}
