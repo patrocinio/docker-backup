@@ -152,6 +152,10 @@ func (b *ContainerBackup) Restore() error {
 		return err
 	}
 
+	fmt.Printf("Old container: %+v\n", oldContainer)
+
+ 
+
 	config, err := json.Marshal(oldContainer.Config)
 	if err != nil {
 		return err
@@ -186,8 +190,6 @@ func (b *ContainerBackup) Restore() error {
 	}
 
 	trans := map[string]string{}
-
-	fmt.Printf("Old container: %+v\n", oldContainer)
 
 
 	// find new location for each volume found in old container
