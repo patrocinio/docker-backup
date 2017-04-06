@@ -145,7 +145,6 @@ func (b *ContainerBackup) Restore() error {
 		return fmt.Errorf("Couldn't find volume container in backup")
 	}
 
-//	oldContainer := &containerType{}
 	oldContainer := &types.ContainerJSON{}
 	if err := json.Unmarshal(oldContainerJson, oldContainer); err != nil {
 		return err
@@ -194,7 +193,6 @@ func (b *ContainerBackup) Restore() error {
 		fmt.Printf("oldMount: %+v\n", oldMount)
 		newHostPath := ""
 		for _, mount := range newContainer.Mounts {
-//		for path, hostPath := range newContainer.Volumes {
 			if oldMount.Destination == mount.Destination {
 				newHostPath = mount.Source
 				break
@@ -213,6 +211,9 @@ func (b *ContainerBackup) Restore() error {
 
 	for {
 		th, err := tr.Next()
+
+		fmt.Printf("th: %+v\n", th)
+
 		if err == io.EOF {
 			break
 		}
