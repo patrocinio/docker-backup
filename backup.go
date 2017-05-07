@@ -105,6 +105,7 @@ func (b *ContainerBackup) VolumeContainerStore(containerId string) (uint, error)
 	fmt.Printf("Volume container: %+v\n", volumeContainer)
 
 	for _, mount := range volumeContainer.Mounts {
+		fmt.Printf("Mount: %+v\n", mount)
 		volume := newContainerVolume(mount.Destination, mount.Source, tw)
 		nl, err := volume.Store()
 		if err != nil {
